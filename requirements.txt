@@ -6,7 +6,14 @@ Flask-WTF
 Flask-SQLAlchemy
 Flask-Migrate
 Flask-Login
+Flask-Script
 psycopg2
+Jinja2==2.9.4
+MarkupSafe==0.23
+Werkzeug==0.11.15
+click==6.7
+itsdangerous==0.24
+wsgiref==0.1.2
 
 # ----------------------
 # Production Server

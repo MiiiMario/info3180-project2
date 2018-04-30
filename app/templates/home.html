@@ -1,7 +1,55 @@
 {% extends "base.html" %}
+{% block css %} 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body{
+    background-color: rgba(255, 255, 255, 0.8);
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap:10px;
+  padding: 10px;
+  padding-top:30px;
+}
+.grid-item {
+  
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  height: 150%;
+  max-width:100%;
+  padding: 10px;
+  font-size: 15px;
+ 
 
+}
+.btn {
+    max-width:50%;
+    display:inline-block;
+    position: relative;
+   
+}
+</style>
+{% endblock%}
 {% block main %}
-<h1>Demo User App</h1>
 {% include 'flash_messages.html' %}
-<p class="lead">This demo app demonstrates the use of Flask-Login and Flask-Migrate extensions</p>
+
+<div class="grid-container">
+  <div class="grid-item">
+      <img src="static/images/images (3).jpeg" style="height:90%; width=100%">
+  </div>
+  <div class="grid-item">
+      <h1 style="text-align: center"> <i class="fa fa-camera">Photogram </i></h1>
+      <br>
+      <br>
+      Share photos of your favourite memories with friends, family and the world.
+  <br><br>
+  
+  <a href="{{ url_for('register') }}" class="btn btn-lg btn-primary btn-block" role="button">Register</a>
+  <a href="{{ url_for('login') }}" class="btn btn-lg btn-primary btn-block" role="button">Login</a>
+  </div>
+</<div>
+
+
+
 {% endblock %}
+<p class="lead">Welcome to Photogram</p>

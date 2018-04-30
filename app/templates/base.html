@@ -13,24 +13,25 @@
     {% block css %} {% endblock%}
   </head>
   <body>
-    <header>
-        {% include "header.html" %}
-    </header>
+
     <main>
         <div class="container">
             {% block main %}{% endblock %}
         </div>
     </main>
-    <footer>
-        <div class="container">
-            {% include "footer.html" %}
-        </div>
-    </footer>
+   
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/static/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vue-router.js') }}"></script>
+    <script> const token = "{{ csrf_token() }}"</script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     {% block js %} {% endblock%}
   </body>
 </html>

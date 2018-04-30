@@ -1,0 +1,346 @@
+FORMAT: 1A
+HOST: http://localhost:8080/
+
+# Photogram API
+
+Photogram is a fictional clone of Instagram. Users can post photos to share with their family and friends as well as 'like' and 'follow' other users.
+
+## User Registration [/api/users/register]
+
+### Register a new User [POST]
+
++ Request (multipart/form-data)
+
+        {
+            "firstname": 'John',
+            "lastname": 'Doe',
+            "username": "jdoe",
+            "password": "password123",
+            "email": "jdoe@example.com",
+            "location": "Kingston, Jamaica",
+            "biography": "A short bio about me",
+            "profile_photo": "profile-photo.jpg"
+        }
+
++ Response 201 (application/json)
+
+        {
+            "message": "User successfully registered"
+        }
+        
+
+## User Login [/api/auth/login]
+
+### Login an existing User [POST]
+
++ Request (application/json)
+
+        {
+            "username": "jdoe",
+            "password": "password123"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o"
+            "message": "User successfully logged in."
+        }
+        
+## User Logout [/api/auth/logout]
+
+### Logout an existing User [POST]
+
++ Request (application/json)
+
+        {
+
+        }
+
++ Response 200 (application/json)
+
+        {
+            "message": "User successfully logged out."
+        }
+
+## User Details [/api/users/{user_id}]
+
+### Get user Details [GET]
+
+Get information about a user. The 'posts' key in the response can be optional. If you want you can use a separate AJAX call to "/api/users/{user_id}/posts" then that is fine as well.
+
++ Parameters
+    + user_id (number) - ID of the User in the form of an integer
+    
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o
+    
+    + Body
+
+            {
+
+            }
+            
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "id": 1,
+                "username": "mjane",
+                "firstname": "Mary",
+                "lastname": "Jane",
+                "email": "mjane@example.com",
+                "location": "Kingston, Jamaica",
+                "biography": "My short bio",
+                "profile_photo": "myphoto.jpg",
+                "joined_on": "April, 2018",
+                "posts": [
+                    {
+                        "id": 1,
+                        "user_id": 1,
+                        "photo": "some-photo.jpg",
+                        "description": "My Cool photo",
+                        "created_on": "2018-04-03 14:30:00"
+                    }, 
+                    {
+                        "id": 2,
+                        "user_id": 1,
+                        "photo": "another-photo.jpg",
+                        "description": "My Cool photo",
+                        "created_on": "2018-04-04 10:31:22"
+                    } 
+                ]
+                
+            }
+
+## Posts [/api/users/{user_id}/posts]
+
+### View User Posts [GET]
+
+Get a list of all posts by a specific user.
+
++ Parameters
+    + user_id (number) - ID of the User in the form of an integer
+
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o
+    
+    + Body
+
+            {
+
+            }
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "posts": [
+                    {
+                        "id": 1,
+                        "user_id": 1,
+                        "photo": "some-photo.jpg",
+                        "description": "My Cool photo",
+                        "created_on": "2018-04-03 14:30:00"
+                    }, 
+                    {
+                        "id": 2,
+                        "user_id": 1,
+                        "photo": "another-photo.jpg",
+                        "description": "My Cool photo",
+                        "created_on": "2018-04-04 10:31:22"
+                    }, 
+                    {
+                        "id": 3,
+                        "user_id": 1,
+                        "photo": "hillside-photo.jpg",
+                        "description": "My Cool photo",
+                        "created_on": "2018-04-05 12:12:00"
+                    }, 
+                    {
+                        "id": 4,
+                        "user_id": 1,
+                        "photo": "beach-photo.jpg",
+                        "description": "My Cool photo",
+                        "created_on": "2018-04-06 18:45:18"
+                    }
+                ]
+            }
+
+### Create a new Post [POST]
+
+Create a new post for the current logged in user.
+
++ Parameters
+    + user_id (number) - ID of the User in the form of an integer
+
++ Request (multipart/form-data)
+
+    + Headers
+    
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o
+    
+    + Body
+
+            {
+                "user_id": 1,
+                "photo": "interesting-photo.jpg",
+                "description": "My interesting photo in the #countryside"
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "message": "Successfully created a new post"    
+            }
+            
+            
+## Follow Users [/api/users/{user_id}/follow]
+
+### Follow a user [POST]
+
+Follow the user whos profile you are viewing.
+
++ Parameters
+    + user_id (number) - ID of the target User in the form of an integer
+    
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o
+    
+    + Body
+
+            {
+                "user_id": 1,
+                "follower_id": 2
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "message": "You are now following that user." 
+            }
+
+### Get number of followers [GET]
+
+Get total number of followers for a user
+
++ Parameters
+    + user_id (number) - ID of the target User in the form of an integer
+    
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o
+    
+    + Body
+
+            {
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "followers": 800
+            }
+            
+
+## View Posts [/api/posts]
+
+### View all Posts by all Users [GET]
+
+View all posts by all registered users in the system.
+
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o
+    
+    + Body
+
+            {
+
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "posts": [
+                    {
+                        "id": 1,
+                        "user_id": 1,
+                        "photo": "cool-photo.jpg",
+                        "caption": "This is such an awesome photo from high school",
+                        "created_on": "2018-04-05 14:25:00",
+                        "likes": 10
+                    },
+                    {
+                        "id": 2,
+                        "user_id": 3,
+                        "photo": "another-photo.jpg",
+                        "caption": "Best friends from wen!",
+                        "created_on": "2018-04-05 10:14:23",
+                        "likes": 5
+                    },
+                    {
+                        "id": 3,
+                        "user_id": 3,
+                        "photo": "beautiful-blue-mountains.jpg",
+                        "caption": "Amazing photo of the Blue Mountain Peak",
+                        "created_on": "2018-03-31 12:58:12",
+                        "likes": 3
+                    }
+                ]
+            }
+
+
+## Like Posts [/api/posts/{post_id}/like]
+
+### Like a specific Post [POST]
+
+Like a specific post by a user.
+
++ Parameters
+    + post_id (number) - ID of the Post in the form of an integer
+
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o
+    
+    + Body
+
+            {
+                "user_id": 1,
+                "post_id": 243
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+                "message": "Post liked!",
+                "likes": 10
+            }
