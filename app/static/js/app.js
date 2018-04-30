@@ -257,16 +257,16 @@ const Login =Vue.component('login',{
                 }
                 else{
                     let self.jtoken = localStorage.getItem('jtoken');
-                    // //let userid=localStorage.getItem('userid');
+                    let userid=localStorage.getItem('userid');
                     // let self.user=localStorage.getItem('user');
                     
                     localStorage.setItem('user', jsonResponse.user)
                     localStorage.setItem('jtoken', jsonResponse.token);
-                    //localStorage.setItem('userid',jsonResponse.user.userid);
+                    localStorage.setItem('userid',jsonResponse.user.userid);
                     console.log(localStorage.getItem('jtoken'))
                     
                     self.message = jsonResponse.message;
-                    console.log(jsonResponse.message, localStorage.getItem('user'));
+                    console.log(jsonResponse.message, localStorage.getItem('userid'));
                     //this.$route.router.go('/explore');
                     self.$router.push({path:'/explore' });
                 }
@@ -280,67 +280,67 @@ const Login =Vue.component('login',{
     
 });
 
-// const Logout=Vue.component('logout',{
-//     template:`
-//     <div>
-//      <div v-if ="message">
-//     <p class="alert alert-success" >
-//         {{message}}
-//     </p>
-//     </div>
-//     <p>Are you sure you want to logout</p>
-//     <form id="logout" @submit.prevent="logout">
-//     <button class="btn btn-primary" type="submit" >Logout</button>
-//     </form>
-//     </div>
-// `,
-//     created:function(){
-//             let self = this;
-//             if(localStorage.getItem('token')!==null){
-//                 self.usertoken=localStorage.getItem('token');   
-//             }
-//         },
-//     data:function(){
-//         return {
-//             message :'',
-//             usertoken:''
-//         }
-//     },methods:{
-//         logout: function(){
-//         if (localStorage.getItem('sessionuser')!==null){
-//             let self = this;
-//             //self.usertoken=localStorage.getItem('token');
-//             let logoutform = document.getElementById('logout');
-//             let form_data = new FormData(logoutform);
-//             fetch("/api/auth/logout", { 
-//                 method: 'GET',
-//                 headers: {
-//                         //'Authorization': 'Bearer ' + localStorage.getItem('token'),
-//                         'X-CSRFToken': token
-//                     },
-//                 credentials: 'same-origin'
+const Logout=Vue.component('logout',{
+    template:`
+    <div>
+     <div v-if ="message">
+    <p class="alert alert-success" >
+        {{message}}
+    </p>
+    </div>
+    <p>Are you sure you want to logout</p>
+    <form id="logout" @submit.prevent="logout">
+    <button class="btn btn-primary" type="submit" >Logout</button>
+    </form>
+    </div>
+`,
+    created:function(){
+            let self = this;
+            if(localStorage.getItem('token')!==null){
+                self.usertoken=localStorage.getItem('token');   
+            }
+        },
+    data:function(){
+        return {
+            message :'',
+            usertoken:''
+        }
+    },methods:{
+        logout: function(){
+        if (localStorage.getItem(jtoken')!==null){
+            let self = this;
+            //self.usertoken=localStorage.getItem('token');
+            let logoutform = document.getElementById('logout');
+            let form_data = new FormData(logoutform);
+            fetch("/api/auth/logout", { 
+                method: 'GET',
+                headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('jtoken'),
+                        'X-CSRFToken': token
+                    },
+                credentials: 'same-origin'
                 
-//                 })
-//                 .then(function (response) {
-//                     return response.json();
-//                 })
-//                 .then(function (jsonResponse) {
-//                     if(jsonResponse.message){
-//                         console.log('out')
-//                         //localStorage.removeItem('token');
-//                         localStorage.removeItem('sessionuser');
-//                         localStorage.removeItem('sessionuserphoto');
-//                         self.message=jsonResponse.message;
+                })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (jsonResponse) {
+                    if(jsonResponse.message){
+                        console.log('out')
+                        localStorage.removeItem('jtoken');
+                        localStorage.removeItem('user');
+                        //localStorage.removeItem('userid');
+                        self.message=jsonResponse.message;
                         
-//                         self.$router.push('/')
-//                     }
-//                 })
-//                 .catch(function (error) {
-//                     console.log(error);
-//                 });
-//             }
-//         }    }
-//     });
+                        self.$router.push('/')
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
+        }    }
+    });
 
 
 const AddPost=Vue.component('addpost',{
@@ -395,7 +395,7 @@ const AddPost=Vue.component('addpost',{
             method: 'POST',
             body: form_data,
             headers: {
-                  // 'Authorization': 'Bearer ' //+ localStorage.getItem('token'),
+                    'Authorization': 'Bearer ' + localStorage.getItem('token'),
                     'X-CSRFToken': token
                 },
             credentials: 'same-origin'
@@ -408,7 +408,7 @@ const AddPost=Vue.component('addpost',{
                  if(jsonResponse.message){
                     console.log(jsonResponse.message);
                     self.message = jsonResponse.message
-                    user_id = localStorage.getItem("sessionuser")
+                    user_id = localStorage.getItem("jtoken")
                     self.$router.push({path:'/users/'+ user_id })
                 } 
                 else{     
@@ -529,124 +529,124 @@ template:`
     }
 })
 
-// // const UserPost=Vue.component('Userposts',{
-// // template:`<div v-if="usertoken!==''">
-// //                 <div v-if="error ===''">
-// //                     <div>
-// //                         <img style="width:100; height:100px;" v-bind:src="userinfo.photo" />
-// //                         <p>{{userinfo.fname}}<span> {{userinfo.lname}}</span></p>
-// //                         <p>{{userinfo.location}}</p>
-// //                         <p>{{userinfo.joined}}</p>
-// //                         <p>{{userinfo.bio}}</p>
-// //                     </div>
-// //                     <div>
-// //                         <p>{{numposts}} </br> Posts</p>
-// //                         <p><span id='followers'>{{follows}}</span> </br>Following</p>
-// //                         <div v-if="toshow=='Yes'">
-// //                             <form method="POST" @submit.prevent="follow">
-// //                                 <input  id='userid' type="hidden" :value=userinfo.id >
-// //                                 <button id='follow'>Follow</button>
-// //                             </form>
-// //                         </div>
-// //                         <div v-if="isfollowing !==''">
-// //                             <p>{{isfollowing}}</p>
-// //                         </div>
-// //                     </div>
-// //                     <div v-if="posts.length > 0">
-// //                         <div v-for="photo in posts">
-// //                             <img v-bind:src="photo.photo"/>
-// //                         </div>
-// //                     </div>
-// //                     <div v-else><h3>No posts yet</h3></div>
-// //                 </div>
-// //                 <div v-else><h1>User Doesn't exist</h1></div>
-// //             </div>
-// //             <div v-else>
-// //                 <h3>You are not logged in</h3>
-// //             </div>`,
-// //         created: function () {
-// //             if(localStorage.getItem('token')!==null){
-// //                 let self = this;
-// //                 self.usertoken=localStorage.getItem('token');
-// //                 fetch("/api/users/"+this.$route.params.user_id+"/posts", { 
-// //                 method: 'GET',
-// //                 headers: {
-// //                         'Authorization': 'Bearer ' + localStorage.getItem('token'),
-// //                         'X-CSRFToken': token
-// //                     },
-// //                 credentials: 'same-origin'
+const UserPost=Vue.component('Userposts',{
+template:`<div v-if="usertoken!==''">
+                <div v-if="error ===''">
+                    <div>
+                        <img style="width:100; height:100px;" v-bind:src="userinfo.photo" />
+                        <p>{{userinfo.fname}}<span> {{userinfo.lname}}</span></p>
+                        <p>{{userinfo.location}}</p>
+                        <p>{{userinfo.joined}}</p>
+                        <p>{{userinfo.bio}}</p>
+                    </div>
+                    <div>
+                        <p>{{numposts}} </br> Posts</p>
+                        <p><span id='followers'>{{follows}}</span> </br>Following</p>
+                        <div v-if="toshow=='Yes'">
+                            <form method="POST" @submit.prevent="follow">
+                                <input  id='userid' type="hidden" :value=userinfo.id >
+                                <button id='follow'>Follow</button>
+                            </form>
+                        </div>
+                        <div v-if="isfollowing !==''">
+                            <p>{{isfollowing}}</p>
+                        </div>
+                    </div>
+                    <div v-if="posts.length > 0">
+                        <div v-for="photo in posts">
+                            <img v-bind:src="photo.photo"/>
+                        </div>
+                    </div>
+                    <div v-else><h3>No posts yet</h3></div>
+                </div>
+                <div v-else><h1>User Doesn't exist</h1></div>
+            </div>
+            <div v-else>
+                <h3>You are not logged in</h3>
+            </div>`,
+        created: function () {
+            if(localStorage.getItem('token')!==null){
+                let self = this;
+                self.usertoken=localStorage.getItem('token');
+                fetch("/api/users/"+this.$route.params.user_id+"/posts", { 
+                method: 'GET',
+                headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                        'X-CSRFToken': token
+                    },
+                credentials: 'same-origin'
                 
-// //                 })
-// //                 .then(function (response) {
-// //                     return response.json();
-// //                 })
-// //                 .then(function (jsonResponse) {
-// //                     if (jsonResponse.response){
-// //                         self.posts=jsonResponse.response['0']['posts']['0'];
-// //                         self.numposts=jsonResponse.response['0']['numposts'];
-// //                         self.follows=jsonResponse.response['0']['follows'];
-// //                         self.userinfo=jsonResponse.response['0']['userinfo'];
-// //                         console.log(self.userinfo);
-// //                         if((jsonResponse.response['0']['current']==='No' &&  jsonResponse.response['0']['following']==='No')===true){
-// //                             self.toshow='Yes';
-// //                         }
-// //                         if(jsonResponse.response['0']['current']==='No' && jsonResponse.response['0']['following']==='Yes'){
-// //                                 self.isfollowing='You are already following '+self.userinfo['username'];
-// //                         }
-// //                     }
-// //                     else{
-// //                         self.error=jsonResponse.error['error'];
-// //                     }
-// //                 })
-// //                 .catch(function (error) {
-// //                     console.log(error);
-// //                 });
-// //             }
+                })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (jsonResponse) {
+                    if (jsonResponse.response){
+                        self.posts=jsonResponse.post;
+                        self.numposts=jsonResponse.numposts;
+                        self.follows=jsonResponse.follows;
+                        self.userinfo=jsonResponse.userinfo;
+                        console.log(self.userinfo);
+                        if((jsonResponse.response['0']['current']==='No' &&  jsonResponse.response['0']['following']==='No')===true){
+                            self.toshow='Yes';
+                        }
+                        if(jsonResponse.response['0']['current']==='No' && jsonResponse.response['0']['following']==='Yes'){
+                                self.isfollowing='You are already following '+self.userinfo['username'];
+                        }
+                    }
+                    else{
+                        self.error=jsonResponse.error['error'];
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
             
-// //         },
-// //         data:function(){
-// //             return {
-// //                 usertoken:'',
-// //                 posts:[],
-// //                 follows:0,
-// //                 numposts:0,
-// //                 userinfo:[],
-// //                 isfollowing:'',
-// //                 error:'',
-// //                 toshow:'',
-// //             }
-// //         },methods:{
-// //             follow:function(){
-// //                 let self= this;
-// //                 let followid=document.getElementById('userid').value;
-// //                 let updatefollows=document.getElementById('followers').innerHTML;
-// //                 updatefollows=parseInt(updatefollows)+1;
-// //                 fetch("/api/users/"+followid+"/follow", { 
-// //                     method: 'POST',
-// //                     headers: {
-// //                             'Authorization': 'Bearer ' + localStorage.getItem('token'),
-// //                             'X-CSRFToken': token
-// //                         },
-// //                     credentials: 'same-origin'
+        },
+        data:function(){
+            return {
+                usertoken:'',
+                posts:[],
+                follows:0,
+                numposts:0,
+                userinfo:[],
+                isfollowing:'',
+                error:'',
+                toshow:'',
+            }
+        },methods:{
+            follow:function(){
+                let self= this;
+                let followid=document.getElementById('userid').value;
+                let updatefollows=document.getElementById('followers').innerHTML;
+                updatefollows=parseInt(updatefollows)+1;
+                fetch("/api/users/"+followid+"/follow", { 
+                    method: 'POST',
+                    headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token'),
+                            'X-CSRFToken': token
+                        },
+                    credentials: 'same-origin'
                     
-// //                     })
-// //                     .then(function (response) {
-// //                         return response.json();
-// //                     })
-// //                     .then(function (jsonResponse) {
-// //                         if (jsonResponse.response){
-// //                             alert(jsonResponse.response['message']);
-// //                             document.getElementById('followers').innerHTML=updatefollows;
-// //                             document.getElementById('follow').disabled=true;
-// //                         }
-// //                     })
-// //                     .catch(function (error) {
-// //                         console.log(error);
-// //                     });
-// //             }
+                    })
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (jsonResponse) {
+                        if (jsonResponse.response){
+                            alert(jsonResponse.response['message']);
+                            document.getElementById('followers').innerHTML=updatefollows;
+                            document.getElementById('follow').disabled=true;
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
                 
-// //         }
-// // })
+        }
+})
 // Define Routes
 const router = new VueRouter({
     routes: [
@@ -654,9 +654,9 @@ const router = new VueRouter({
         { path:"/login",component: Login },
         { path:"/posts/new", component:AddPost},
         { path:"/register", component:Register},
-    //    { path:"/logout",component:Logout},
+        { path:"/logout",component:Logout},
         { path:"/explore",component:Explorer},
-        //{ path:"/users/:user_id",component:UserPost}
+        { path:"/users/:user_id",component:UserPost}
     ]
 });
 
