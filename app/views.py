@@ -9,7 +9,7 @@ from app import app, db, login_manager
 from flask import render_template, request, redirect, url_for, flash, session, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from forms import LoginForm, RegisterForm, UploadForm
-from models import UserProfile, Posts, Likes, Follows 
+from models import Users, Posts, Likes, Follows 
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 from passlib.hash import sha256_crypt
@@ -103,21 +103,20 @@ def register():
         location = request.form['location']
 
         
-        #print (username, firstname, lastname, email, biography, location)
+        print (username, firstname, lastname, email, biography, location)
         photo = request.files['profile_photo']
         profilepic = secure_filename(photo.filename)
-        joined_on =time.strftime("%a, %-d %b %Y")
+        joined_on =time.strftime("%B %Y")
         
         file_folder = app.config['UPLOAD_FOLDER']
         
         userid=randomnum('uid')    
-        User = UserProfile(userid,username, password, firstname, lastname, email, biography, location, profilepic, joined_on)
-        print User
+        User = Users(userid, username, password, firstname, lastname, email, biography, location, profilepic, joined_on)
         db.session.add(User)
         db.session.commit()
-        # print User
-        # if User:
-        photo.save(os.path.join(file_folder, profilepic))
+        print User
+        if User:
+            photo.save(os.path.join(file_folder, profilepic))
         return jsonify({'message' : 'Registration was a success!'})
             
     errors= form_errors(form)
@@ -221,7 +220,7 @@ def posts(current_user):
             if Posts.query.filter_by(post.userid== current_user.userid):
                 likebyuser ="Yes"
             likebyuser ="No"
-            u = UserProfile.query.filter_by(userid==post.userid )
+            u = Users.query.filter_by(userid==post.userid )
             photo = get_uploaded_images(post.photo)
             uphoto = get_uploaded_images(post.profile_photo)
             allposts[post.postid] = {'photo':photo, 'caption' :post.caption, 'created_on' :post.created_on, 'likes': numlikes, 'likebyuser': likebyuser,'uname':u.username, 'uphoto':uphoto}
@@ -255,7 +254,7 @@ def form_errors(form):
 def randomnum(ftype):
     ran = random.randrange(30000, 90000, 2)
     if ftype == "uid":
-        if UserProfile.query.filter_by(userid=ran).first(): # try this line without the query it should work if it doesn't you can alway put it back.
+        if Users.query.filter_by(userid=ran).first(): # try this line without the query it should work if it doesn't you can alway put it back.
             ran = random.randrange(30000, 90000, 5)
             return ran 
     elif ftype =="pid":

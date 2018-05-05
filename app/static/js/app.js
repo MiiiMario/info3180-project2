@@ -256,13 +256,13 @@ const Login =Vue.component('login',{
                     self.errors = jsonResponse.errors;
                 }
                 else{
-                    let self.jtoken = localStorage.getItem('jtoken');
+                    let jtoken = localStorage.getItem('jtoken');
                     let userid=localStorage.getItem('userid');
                     // let self.user=localStorage.getItem('user');
                     
                     localStorage.setItem('user', jsonResponse.user)
                     localStorage.setItem('jtoken', jsonResponse.token);
-                    localStorage.setItem('userid',jsonResponse.user.userid);
+                    
                     console.log(localStorage.getItem('jtoken'))
                     
                     self.message = jsonResponse.message;
@@ -307,7 +307,7 @@ const Logout=Vue.component('logout',{
         }
     },methods:{
         logout: function(){
-        if (localStorage.getItem(jtoken')!==null){
+        if (localStorage.getItem('jtoken')!==null){
             let self = this;
             //self.usertoken=localStorage.getItem('token');
             let logoutform = document.getElementById('logout');
@@ -427,7 +427,7 @@ const AddPost=Vue.component('addpost',{
 
 const Explorer=Vue.component('Allposts',{
 template:`
-                
+            <div>
                 <div style="margin-top: 20%;">
                     <router-link class="btn btn-success col-md-5" to="/posts/new">New Post</router-link>
                 </div>
@@ -449,14 +449,14 @@ template:`
                             </div>
                         <p>Likes: <span :id="'like'+post.pid">{{post.likes}}</span></p></div>
                         <p>{{post.created_on}}</p>
-                        </div>
-                    
                     </div>
-                
+                    
+                </div>
+            </div>
                
         
       `,
-        created: function () {
+        methods: function () {
         let self = this;
         // if(localStorage.getItem('jtoken')){
         //     self.usertoken=localStorage.getItem('jtoken');
